@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="001-virology-notebook-template" author="system">
+        <comment>Create Virology Laboratory notebook template with 10 workflow pages</comment>
+
+        <!-- Insert notebook template -->
+        <sql>
+            INSERT INTO notebook_template (id, template_name, active)
+            SELECT NEXTVAL('notebook_template_seq'), 'Virology Laboratory', TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_template WHERE template_name = 'Virology Laboratory'
+            );
+        </sql>
+
+        <!-- Page 1: Sample Reception & Registration -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-sample-reception', 1, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-sample-reception'
+            );
+        </sql>
+
+        <!-- Page 2: Sample Preparation & Processing -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-sample-preparation', 2, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-sample-preparation'
+            );
+        </sql>
+
+        <!-- Page 3: Viral Culture & Isolation -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-viral-culture', 3, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-viral-culture'
+            );
+        </sql>
+
+        <!-- Page 4: Molecular Testing (PCR/RT-PCR) -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-molecular-testing', 4, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-molecular-testing'
+            );
+        </sql>
+
+        <!-- Page 5: Antigen Testing -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-antigen-testing', 5, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-antigen-testing'
+            );
+        </sql>
+
+        <!-- Page 6: Serology & Antibody Testing -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-serology-testing', 6, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-serology-testing'
+            );
+        </sql>
+
+        <!-- Page 7: Microscopy & Staining -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-microscopy-staining', 7, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-microscopy-staining'
+            );
+        </sql>
+
+        <!-- Page 8: Quality Control & Validation -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-quality-control', 8, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-quality-control'
+            );
+        </sql>
+
+        <!-- Page 9: Results Analysis & Interpretation -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-results-analysis', 9, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-results-analysis'
+            );
+        </sql>
+
+        <!-- Page 10: Storage & Documentation -->
+        <sql>
+            INSERT INTO notebook_page_type (id, template_id, page_type, "order", active)
+            SELECT NEXTVAL('notebook_page_type_seq'),
+                   (SELECT id FROM notebook_template WHERE template_name = 'Virology Laboratory'),
+                   'virology-storage-documentation', 10, TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM notebook_page_type npt
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-storage-documentation'
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

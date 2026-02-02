@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="004-virology-permission-levels" author="system">
+        <comment>Define action-level permissions (VIEW, UPDATE, FULL) for each role on each page</comment>
+
+        <!-- Page 1: Sample Reception & Registration -->
+        <!-- Technician: UPDATE -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'UPDATE', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-reception'
+              AND sr.name = 'Virology Lab Technician'
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+            );
+        </sql>
+
+        <!-- Microbiologist: UPDATE -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'UPDATE', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-reception'
+              AND sr.name = 'Virology Microbiologist'
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+            );
+        </sql>
+
+        <!-- Manager: FULL -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'FULL', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-reception'
+              AND sr.name = 'Virology Manager'
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+            );
+        </sql>
+
+        <!-- Principal Investigator: FULL -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'FULL', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-reception'
+              AND sr.name = 'Virology Principal Investigator'
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+            );
+        </sql>
+
+        <!-- Data Manager: VIEW -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'VIEW', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-reception'
+              AND sr.name = 'Virology Data Manager'
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+            );
+        </sql>
+
+        <!-- Page 2: Sample Preparation & Processing -->
+        <!-- Technician: UPDATE -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'UPDATE', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-preparation'
+              AND sr.name = 'Virology Lab Technician';
+        </sql>
+
+        <!-- Microbiologist: UPDATE -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'UPDATE', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-preparation'
+              AND sr.name = 'Virology Microbiologist';
+        </sql>
+
+        <!-- Manager: FULL -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'FULL', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-preparation'
+              AND sr.name = 'Virology Manager';
+        </sql>
+
+        <!-- Principal Investigator: FULL -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'FULL', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-sample-preparation'
+              AND sr.name = 'Virology Principal Investigator';
+        </sql>
+
+        <!-- Page 3-10: Similar patterns for remaining pages... -->
+        <!-- Due to length constraints, I'll create a more efficient approach -->
+
+        <!-- Batch insert for remaining pages with standard permission patterns -->
+        <!-- Pages 3-7: Technical work pages (Technician/Microbiologist: UPDATE, Manager/PI: FULL) -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id,
+                   CASE
+                     WHEN sr.name IN ('Virology Manager', 'Virology Principal Investigator') THEN 'FULL'
+                     ELSE 'UPDATE'
+                   END, TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type IN ('virology-viral-culture', 'virology-molecular-testing',
+                                   'virology-antigen-testing', 'virology-serology-testing',
+                                   'virology-microscopy-staining')
+              AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+              );
+        </sql>
+
+        <!-- Page 8: Quality Control - Manager/PI only with FULL access -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id, 'FULL', TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-quality-control'
+              AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+              );
+        </sql>
+
+        <!-- Page 9: Results Analysis - Specialized permissions -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id,
+                   CASE
+                     WHEN sr.name IN ('Virology Manager', 'Virology Principal Investigator') THEN 'FULL'
+                     WHEN sr.name = 'Virology Microbiologist' THEN 'UPDATE'
+                     WHEN sr.name = 'Virology Data Manager' THEN 'VIEW'
+                   END, TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-results-analysis'
+              AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+              );
+        </sql>
+
+        <!-- Page 10: Storage & Documentation - All roles with appropriate permissions -->
+        <sql>
+            INSERT INTO notebook_page_permission (id, page_role_id, permission_level, active)
+            SELECT NEXTVAL('notebook_page_permission_seq'), npr.id,
+                   CASE
+                     WHEN sr.name IN ('Virology Manager', 'Virology Principal Investigator') THEN 'FULL'
+                     WHEN sr.name IN ('Virology Lab Technician', 'Virology Microbiologist') THEN 'UPDATE'
+                     WHEN sr.name = 'Virology Data Manager' THEN 'VIEW'
+                   END, TRUE
+            FROM notebook_page_role npr
+            JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+            JOIN notebook_template nt ON npt.template_id = nt.id
+            JOIN system_role sr ON npr.role_id = sr.id
+            WHERE nt.template_name = 'Virology Laboratory'
+              AND npt.page_type = 'virology-storage-documentation'
+              AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_permission npp WHERE npp.page_role_id = npr.id
+              );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

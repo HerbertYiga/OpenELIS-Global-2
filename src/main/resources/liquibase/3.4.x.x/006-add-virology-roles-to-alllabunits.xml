@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="006-add-virology-roles-to-alllabunits" author="system">
+        <comment>Add Virology roles to AllLabUnits for admin access</comment>
+
+        <!-- Add Virology roles to AllLabUnits -->
+        <sql>
+            INSERT INTO lab_unit_role (id, lab_unit_id, system_role_id, active, created_date, lastupdated)
+            SELECT NEXTVAL('lab_unit_role_seq'),
+                   (SELECT id FROM lab_unit WHERE name = 'AllLabUnits'),
+                   sr.id, true, now(), now()
+            FROM system_role sr
+            WHERE sr.name IN (
+                'Virology Lab Technician',
+                'Virology Microbiologist',
+                'Virology Manager',
+                'Virology Principal Investigator',
+                'Virology Data Manager'
+            )
+            AND NOT EXISTS (
+                SELECT 1 FROM lab_unit_role lur
+                JOIN lab_unit lu ON lur.lab_unit_id = lu.id
+                WHERE lu.name = 'AllLabUnits' AND lur.system_role_id = sr.id
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

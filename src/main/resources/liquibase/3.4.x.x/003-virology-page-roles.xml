@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="003-virology-page-roles" author="system">
+        <comment>Define page-level role access control for all 10 virology workflow pages</comment>
+
+        <!-- Page 1: Sample Reception & Registration - All roles can access -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-sample-reception'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Lab Technician', 'Virology Microbiologist', 'Virology Manager',
+                             'Virology Principal Investigator', 'Virology Data Manager')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-sample-reception'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 2: Sample Preparation & Processing - Technician, Microbiologist, Manager, PI -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-sample-preparation'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Lab Technician', 'Virology Microbiologist', 'Virology Manager', 'Virology Principal Investigator')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-sample-preparation'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 3: Viral Culture & Isolation - Microbiologist, Manager, PI -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-viral-culture'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Microbiologist', 'Virology Manager', 'Virology Principal Investigator')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-viral-culture'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 4: Molecular Testing - Technician, Microbiologist, Manager, PI -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-molecular-testing'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Lab Technician', 'Virology Microbiologist', 'Virology Manager', 'Virology Principal Investigator')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-molecular-testing'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 5: Antigen Testing - Technician, Microbiologist, Manager, PI -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-antigen-testing'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Lab Technician', 'Virology Microbiologist', 'Virology Manager', 'Virology Principal Investigator')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-antigen-testing'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 6: Serology & Antibody Testing - Technician, Microbiologist, Manager, PI -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-serology-testing'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Lab Technician', 'Virology Microbiologist', 'Virology Manager', 'Virology Principal Investigator')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-serology-testing'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 7: Microscopy & Staining - Technician, Microbiologist, Manager, PI -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-microscopy-staining'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Lab Technician', 'Virology Microbiologist', 'Virology Manager', 'Virology Principal Investigator')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-microscopy-staining'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 8: Quality Control & Validation - Manager, PI -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-quality-control'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Manager', 'Virology Principal Investigator')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-quality-control'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 9: Results Analysis & Interpretation - Microbiologist, Manager, PI, Data Manager -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-results-analysis'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Microbiologist', 'Virology Manager', 'Virology Principal Investigator', 'Virology Data Manager')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-results-analysis'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+
+        <!-- Page 10: Storage & Documentation - All roles can access -->
+        <sql>
+            INSERT INTO notebook_page_role (id, page_type_id, role_id, active)
+            SELECT NEXTVAL('notebook_page_role_seq'),
+                   (SELECT npt.id FROM notebook_page_type npt
+                    JOIN notebook_template nt ON npt.template_id = nt.id
+                    WHERE nt.template_name = 'Virology Laboratory' AND npt.page_type = 'virology-storage-documentation'),
+                   sr.id, TRUE
+            FROM system_role sr
+            WHERE sr.name IN ('Virology Lab Technician', 'Virology Microbiologist', 'Virology Manager',
+                             'Virology Principal Investigator', 'Virology Data Manager')
+            AND NOT EXISTS (
+                SELECT 1 FROM notebook_page_role npr
+                JOIN notebook_page_type npt ON npr.page_type_id = npt.id
+                JOIN notebook_template nt ON npt.template_id = nt.id
+                WHERE nt.template_name = 'Virology Laboratory'
+                  AND npt.page_type = 'virology-storage-documentation'
+                  AND npr.role_id = sr.id
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

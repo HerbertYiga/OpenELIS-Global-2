@@ -71,6 +71,7 @@ import StorageLocationSelector from "../storage/StorageLocationSelector";
 import GenericSampleOrder from "../genericSample/GenericSampleOrder";
 import GenericSampleOrderEdit from "../genericSample/GenericSampleOrderEdit";
 import GenericSampleOrderImport from "../genericSample/GenericSampleOrderImport";
+import VirologyWorkflowTab from "./workflow/VirologyWorkflowTab";
 
 const NoteBookInstanceEntryForm = () => {
   let breadcrumbs = [
@@ -2125,16 +2126,48 @@ const NoteBookInstanceEntryForm = () => {
         {selectedTab === TABS.WORKFLOW && (
           <Column lg={16} md={8} sm={4}>
             <Grid fullWidth={true} className="gridBoundary">
-              <Column lg={16} md={8} sm={4}>
-                <h5>
-                  {" "}
-                  <FormattedMessage id="notebook.label.pages" />
-                </h5>
-              </Column>
-              <Column lg={16} md={8} sm={4}>
-                <br></br>
-              </Column>
-              <Column lg={16} md={8} sm={4}>
+              {/* Virology Laboratory Workflow Integration */}
+              {noteBookData?.title === "Virology Laboratory" && (
+                <Column lg={16} md={8} sm={4}>
+                  <VirologyWorkflowTab
+                    notebookId={noteBookData?.templateId || notebookid}
+                    notebookEntryId={notebookentryid}
+                    initialData={noteBookData?.workflowData || {}}
+                    readOnly={isViewMode}
+                    onSave={(workflowPayload) => {
+                      // Save workflow data
+                      const updatedNoteBookData = {
+                        ...noteBookData,
+                        workflowData: workflowPayload.data,
+                        workflowProgress: workflowPayload.progress,
+                        workflowType: workflowPayload.workflowType
+                      };
+                      setNoteBookData(updatedNoteBookData);
+
+                      // Trigger save to backend
+                      handleSubmit(new Event('submit'));
+                    }}
+                    onCancel={() => {
+                      // Handle cancel if needed
+                      console.log("Virology workflow cancelled");
+                    }}
+                  />
+                </Column>
+              )}
+
+              {/* Default Workflow Pages (for non-Virology Laboratory notebooks) */}
+              {noteBookData?.title !== "Virology Laboratory" && (
+                <>
+                  <Column lg={16} md={8} sm={4}>
+                    <h5>
+                      {" "}
+                      <FormattedMessage id="notebook.label.pages" />
+                    </h5>
+                  </Column>
+                  <Column lg={16} md={8} sm={4}>
+                    <br></br>
+                  </Column>
+                  <Column lg={16} md={8} sm={4}>
                 {noteBookData?.pages?.length === 0 && (
                   <InlineNotification
                     kind="info"
@@ -2340,7 +2373,9 @@ const NoteBookInstanceEntryForm = () => {
                     ))}
                   </Accordion>
                 )}
-              </Column>
+                  </Column>
+                </>
+              )}
             </Grid>
           </Column>
         )}

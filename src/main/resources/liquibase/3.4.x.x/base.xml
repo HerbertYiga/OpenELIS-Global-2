@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Virology Laboratory Workflow Database Migrations -->
+    <include file="liquibase/3.4.x.x/001-virology-notebook-template.xml" />
+    <include file="liquibase/3.4.x.x/002-virology-system-roles.xml" />
+    <include file="liquibase/3.4.x.x/003-virology-page-roles.xml" />
+    <include file="liquibase/3.4.x.x/004-virology-permission-levels.xml" />
+    <include file="liquibase/3.4.x.x/005-create-virology-lab-unit.xml" />
+    <include file="liquibase/3.4.x.x/006-add-virology-roles-to-alllabunits.xml" />
+
+</databaseChangeLog>

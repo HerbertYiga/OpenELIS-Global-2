@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="002-virology-system-roles" author="system">
+        <comment>Create 5 Virology Laboratory system roles</comment>
+
+        <!-- Virology Lab Technician -->
+        <sql>
+            INSERT INTO system_role (id, name, description, active, editable, lastupdated)
+            SELECT NEXTVAL('system_role_seq'), 'Virology Lab Technician',
+                   'Laboratory technician specializing in virology testing and sample processing',
+                   true, true, now()
+            WHERE NOT EXISTS (
+                SELECT 1 FROM system_role WHERE name = 'Virology Lab Technician'
+            );
+        </sql>
+
+        <!-- Virology Microbiologist -->
+        <sql>
+            INSERT INTO system_role (id, name, description, active, editable, lastupdated)
+            SELECT NEXTVAL('system_role_seq'), 'Virology Microbiologist',
+                   'Microbiologist specializing in viral culture, isolation, and identification',
+                   true, true, now()
+            WHERE NOT EXISTS (
+                SELECT 1 FROM system_role WHERE name = 'Virology Microbiologist'
+            );
+        </sql>
+
+        <!-- Virology Manager -->
+        <sql>
+            INSERT INTO system_role (id, name, description, active, editable, lastupdated)
+            SELECT NEXTVAL('system_role_seq'), 'Virology Manager',
+                   'Manager responsible for virology laboratory operations and quality assurance',
+                   true, true, now()
+            WHERE NOT EXISTS (
+                SELECT 1 FROM system_role WHERE name = 'Virology Manager'
+            );
+        </sql>
+
+        <!-- Virology Principal Investigator -->
+        <sql>
+            INSERT INTO system_role (id, name, description, active, editable, lastupdated)
+            SELECT NEXTVAL('system_role_seq'), 'Virology Principal Investigator',
+                   'Senior scientist leading virology research and clinical validation',
+                   true, true, now()
+            WHERE NOT EXISTS (
+                SELECT 1 FROM system_role WHERE name = 'Virology Principal Investigator'
+            );
+        </sql>
+
+        <!-- Virology Data Manager -->
+        <sql>
+            INSERT INTO system_role (id, name, description, active, editable, lastupdated)
+            SELECT NEXTVAL('system_role_seq'), 'Virology Data Manager',
+                   'Data specialist responsible for virology data management and reporting',
+                   true, true, now()
+            WHERE NOT EXISTS (
+                SELECT 1 FROM system_role WHERE name = 'Virology Data Manager'
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,6 @@
+Sample ID,Patient ID,Collection Date,Sample Type,Test Requested,Clinical History,Symptoms,Suspected Virus,Collection Site,Transport Medium,Storage Conditions,Priority,Requesting Physician,Department,Isolation Source,Passage History,Viral Load,Comments
+VIR-001,P001,2024-12-15,Nasopharyngeal Swab,RT-PCR COVID-19,Fever and cough for 3 days,Fever cough headache,SARS-CoV-2,Nasopharynx,Viral Transport Medium,-80°C,Urgent,Dr. Smith,Emergency,N/A,N/A,Unknown,Patient with severe symptoms
+VIR-002,P002,2024-12-14,Serum,Influenza A/B RT-PCR,Seasonal flu symptoms,Fever muscle aches,Influenza A/B,Venous blood,SST,4°C,Normal,Dr. Johnson,Internal Medicine,N/A,N/A,Unknown,Routine screening
+VIR-003,P003,2024-12-13,Throat Swab,Rapid Antigen Test,Sore throat,Sore throat fever,Streptococcus,Throat,Saline,Room Temperature,Normal,Dr. Brown,Family Practice,N/A,N/A,Unknown,Suspected strep throat
+VIR-004,P004,2024-12-12,Cerebrospinal Fluid,HSV PCR,Encephalitis symptoms,Confusion fever neck stiffness,HSV-1/2,Lumbar puncture,Sterile container,4°C,Urgent,Dr. Wilson,Neurology,N/A,N/A,Unknown,Suspected viral encephalitis
+VIR-005,P005,2024-12-11,Whole Blood,HIV-1 RNA,HIV screening,Fever weight loss,HIV-1,Venous blood,EDTA,4°C,High,Dr. Davis,Infectious Disease,N/A,N/A,Unknown,Pre-treatment screening
